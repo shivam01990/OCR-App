@@ -1,0 +1,6 @@
+c:\users\shivam01990\documents\visual studio 2013\Projects\OCRExtractTable\OCRExtractTable\bin\OCRExtractTable.dll.config
+c:\users\shivam01990\documents\visual studio 2013\Projects\OCRExtractTable\OCRExtractTable\bin\OCRExtractTable.dll
+c:\users\shivam01990\documents\visual studio 2013\Projects\OCRExtractTable\OCRExtractTable\bin\OCRExtractTable.pdb
+c:\users\shivam01990\documents\visual studio 2013\Projects\OCRExtractTable\OCRExtractTable\obj\Debug\OCRExtractTable.csprojResolveAssemblyReference.cache
+c:\users\shivam01990\documents\visual studio 2013\Projects\OCRExtractTable\OCRExtractTable\obj\Debug\OCRExtractTable.dll
+c:\users\shivam01990\documents\visual studio 2013\Projects\OCRExtractTable\OCRExtractTable\obj\Debug\OCRExtractTable.pdb
