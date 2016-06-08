@@ -30,6 +30,39 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+
+    <link href="content/bootstrap-fileinput/css/fileinput.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/fileinput.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script src="js/fileinput_locale_LANG.js"></script>
+    <script type="text/javascript">
+        var rootpath = '<%=Page.ResolveUrl("~")%>';
+        $(document).ready(function () {
+            $("#file_BrandImage").fileinput({
+                uploadUrl: rootpath + 'FileUploadHandler.ashx',
+                uploadAsync: true,
+                allowedFileExtensions: ['jpg', 'png', 'gif']
+            });
+
+            $("#file_BrandImage").on('fileuploaded', function (event, data, previewId, index) {
+                //var form = data.form, files = data.files, extra = data.extra,
+                //    response = data.response, reader = data.reader; 
+                $.each(data.files, function (k, obj) {
+                    $("[id$=hdnUploadedImage]").val(obj["name"]);
+                    $("[id$=imgprw]").attr('src', rootpath + "uploads/" + $("[id$=hdnUploadedImage]").val())
+                    $("[id$=ocr-sec]").show();
+                });
+            })
+
+            $('#file_BrandImage').on('fileclear', function (event) {
+                $("[id$=hdnUploadedImage]").val('');
+                $("[id$=ocr-sec]").hide();
+            });
+        });
+
+    </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -49,7 +82,6 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -59,27 +91,30 @@
 
         <!-- Page Content -->
         <div class="container">
-
             <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h1>A Bootstrap Starter Template</h1>
-                    <p class="lead">Complete with pre-defined file paths that you won't have to change!</p>
-                    <ul class="list-unstyled">
-                        <li>Bootstrap v3.3.6</li>
-                        <li>jQuery v1.11.1</li>
-                    </ul>
+                <h2>
+                    <label>Upload File</label></h2>
+                <div class="col-sm-12 text-center">
+                    <input id="file_BrandImage" type="file" data-min-file-count="1">
                 </div>
             </div>
             <!-- /.row -->
-
+            <div id="ocr-sec" style="display: none;" class="col-sm-12">
+                <div class="row">
+                    <h2>
+                        <label>Upload File Preview</label></h2>
+                    <div class="form-group">
+                        <image id="imgprw" src="" class="img-responsive" />
+                        <div class="col-sm-12">
+                            <br />
+                        <asp:Button ID="btnOCRReader" runat="server" Text="Read Image Data" CssClass="btn btn-primary" OnClick="btnOCRReader_Click" /></div>
+                    </div>
+                </div>
+            </div>
+            <asp:Label ID="lblText" runat="server" Text="Label"></asp:Label>
         </div>
         <!-- /.container -->
-
-        <!-- jQuery Version 1.11.1 -->
-        <script src="js/jquery.js"></script>
-
-        <!-- Bootstrap Core JavaScript -->
-        <script src="js/bootstrap.min.js"></script>
+        <asp:HiddenField ID="hdnUploadedImage" runat="server" />
     </form>
 </body>
 </html>

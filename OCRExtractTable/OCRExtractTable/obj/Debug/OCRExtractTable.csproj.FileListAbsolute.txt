@@ -4,3 +4,11 @@ c:\users\shivam01990\documents\visual studio 2013\Projects\OCRExtractTable\OCREx
 c:\users\shivam01990\documents\visual studio 2013\Projects\OCRExtractTable\OCRExtractTable\obj\Debug\OCRExtractTable.csprojResolveAssemblyReference.cache
 c:\users\shivam01990\documents\visual studio 2013\Projects\OCRExtractTable\OCRExtractTable\obj\Debug\OCRExtractTable.dll
 c:\users\shivam01990\documents\visual studio 2013\Projects\OCRExtractTable\OCRExtractTable\obj\Debug\OCRExtractTable.pdb
+D:\Development Area\Tasks Dubai\OCR-App\OCRExtractTable\OCRExtractTable\bin\OCRExtractTable.dll.config
+D:\Development Area\Tasks Dubai\OCR-App\OCRExtractTable\OCRExtractTable\bin\OCRExtractTable.dll
+D:\Development Area\Tasks Dubai\OCR-App\OCRExtractTable\OCRExtractTable\bin\OCRExtractTable.pdb
+D:\Development Area\Tasks Dubai\OCR-App\OCRExtractTable\OCRExtractTable\obj\Debug\OCRExtractTable.csprojResolveAssemblyReference.cache
+D:\Development Area\Tasks Dubai\OCR-App\OCRExtractTable\OCRExtractTable\obj\Debug\OCRExtractTable.dll
+D:\Development Area\Tasks Dubai\OCR-App\OCRExtractTable\OCRExtractTable\obj\Debug\OCRExtractTable.pdb
+D:\Development Area\Tasks Dubai\OCR-App\OCRExtractTable\OCRExtractTable\obj\Debug\Interop.MODI.dll
+D:\Development Area\Tasks Dubai\OCR-App\OCRExtractTable\OCRExtractTable\obj\Debug\OCRExtractTable.csproj.ResolveComReference.cache
