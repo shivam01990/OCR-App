@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="OCRExtractTable.Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" EnableEventValidation="true" Inherits="OCRExtractTable.Default" %>
 
 <!DOCTYPE html>
 
@@ -51,7 +51,7 @@
                 //    response = data.response, reader = data.reader; 
                 $.each(data.files, function (k, obj) {
                     $("[id$=hdnUploadedImage]").val(obj["name"]);
-                    $("[id$=imgprw]").attr('src', rootpath + "uploads/" + $("[id$=hdnUploadedImage]").val())
+                    $("[id$=imgUpload]").attr('src', rootpath + "uploads/" + $("[id$=hdnUploadedImage]").val())
                     $("[id$=ocr-sec]").show();
                 });
             })
@@ -99,15 +99,24 @@
                 </div>
             </div>
             <!-- /.row -->
-            <div id="ocr-sec" style="display: none;" class="col-sm-12">
+            <div id="ocr-sec" style="display:none;" class="col-sm-12">
                 <div class="row">
                     <h2>
                         <label>Upload File Preview</label></h2>
-                    <div class="form-group">
-                        <image id="imgprw" src="" class="img-responsive" />
-                        <div class="col-sm-12">
-                            <br />
-                        <asp:Button ID="btnOCRReader" runat="server" Text="Read Image Data" CssClass="btn btn-primary" OnClick="btnOCRReader_Click" /></div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            
+                            <asp:Image ID="imgUpload" runat="server" />
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Total Columns</label>
+                            <div class="col-sm-10">
+                                <asp:TextBox ID="txtColumns" runat="server" class="form-control" placeholder="Columns"></asp:TextBox>                              
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <asp:Button ID="btnOCRReader" runat="server" Text="Read Image Data" CssClass="btn btn-primary" OnClick="btnOCRReader_Click" />
+                        </div>
                     </div>
                 </div>
             </div>
