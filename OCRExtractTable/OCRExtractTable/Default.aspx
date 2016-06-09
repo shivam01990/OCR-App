@@ -33,10 +33,14 @@
 
 
     <link href="content/bootstrap-fileinput/css/fileinput.css" rel="stylesheet" />
-    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="js/jquery.browser.js"></script>
     <script type="text/javascript" src="js/fileinput.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script src="js/fileinput_locale_LANG.js"></script>
+    <script src="js/jquery.Jcrop.js"></script>
+    <link href="css/jquery.Jcrop.css" type="text/css" rel="stylesheet" />
+
     <script type="text/javascript">
         var rootpath = '<%=Page.ResolveUrl("~")%>';
         $(document).ready(function () {
@@ -53,6 +57,11 @@
                     $("[id$=hdnUploadedImage]").val(obj["name"]);
                     $("[id$=imgUpload]").attr('src', rootpath + "uploads/" + $("[id$=hdnUploadedImage]").val())
                     $("[id$=ocr-sec]").show();
+
+                    $('#<%=imgUpload.ClientID%>').Jcrop({
+                        onSelect: SelectCropArea
+                    });
+
                 });
             })
 
@@ -60,8 +69,16 @@
                 $("[id$=hdnUploadedImage]").val('');
                 $("[id$=ocr-sec]").hide();
             });
-        });
 
+        });
+      
+
+        function SelectCropArea(c) {
+            $('#<%=X.ClientID%>').val(parseInt(c.x));
+            $('#<%=Y.ClientID%>').val(parseInt(c.y));
+            $('#<%=W.ClientID%>').val(parseInt(c.w));
+            $('#<%=H.ClientID%>').val(parseInt(c.h));
+        }
     </script>
 </head>
 <body>
@@ -99,19 +116,19 @@
                 </div>
             </div>
             <!-- /.row -->
-            <div id="ocr-sec" style="display:none;" class="col-sm-12">
+            <div id="ocr-sec" style="display: none;" class="col-sm-12">
                 <div class="row">
                     <h2>
                         <label>Upload File Preview</label></h2>
                     <div class="form-horizontal">
                         <div class="form-group">
-                            
+
                             <asp:Image ID="imgUpload" runat="server" />
                         </div>
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">Total Columns</label>
                             <div class="col-sm-10">
-                                <asp:TextBox ID="txtColumns" runat="server" class="form-control" placeholder="Columns"></asp:TextBox>                              
+                                <asp:TextBox ID="txtColumns" runat="server" class="form-control" placeholder="Columns"></asp:TextBox>
                             </div>
                         </div>
                         <div class="form-group">
@@ -124,6 +141,10 @@
         </div>
         <!-- /.container -->
         <asp:HiddenField ID="hdnUploadedImage" runat="server" />
+        <asp:HiddenField ID="X" runat="server" />
+        <asp:HiddenField ID="Y" runat="server" />
+        <asp:HiddenField ID="W" runat="server" />
+        <asp:HiddenField ID="H" runat="server" />
     </form>
 </body>
 </html>
