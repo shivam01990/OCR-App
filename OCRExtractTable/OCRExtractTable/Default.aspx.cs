@@ -53,28 +53,87 @@ namespace OCRExtractTable
                     //throw;
                 }
             }
-            string extractText = this.ExtractTextFromImage(cropFilePath);
-            lblText.Text = extractText.Replace(Environment.NewLine, "<br />");
+            ExtractTextFromImage(cropFilePath);
         }
 
-        private string ExtractTextFromImage(string filePath)
+        public List<System.Drawing.Image> MultiCrop(string filepath, System.Drawing.Image img, int row, int col)
         {
-            Document modiDocument = new Document();
-            modiDocument.Create(filePath);
-            modiDocument.OCR(MiLANGUAGES.miLANG_ENGLISH);
-            MODI.Image modiImage = (modiDocument.Images[0] as MODI.Image);
+            List<System.Drawing.Image> list = new List<System.Drawing.Image>();
+            Graphics g = Graphics.FromImage(img);
+            Brush redBrush = new SolidBrush(Color.Red);
+            Pen pen = new Pen(redBrush, 3);
+            for (int i = 0; i < row; i++)
+            {
+                for (int y = 0; y < col; y++)
+                {
+                    System.Drawing.Image temp = System.Drawing.Image.FromFile(filepath, true);
 
-            DataTable dt = new DataTable();
-           
+
+                    Rectangle r = new Rectangle(y * (img.Width / col),
+                                                i * (img.Height / row),
+                                                img.Width / col,
+                                                img.Height / row);
+
+                    g.DrawRectangle(pen, r);
+
+                    list.Add(cropImage(temp, r));
+                }
+            }
+            return list;
+        }
+
+        private System.Drawing.Image cropImage(System.Drawing.Image img, Rectangle cropArea)
+        {
+            Bitmap bmpImage = new Bitmap(img);
+            Bitmap bmpCrop = bmpImage.Clone(cropArea, System.Drawing.Imaging.PixelFormat.DontCare);
+            img.Dispose();
+            return (System.Drawing.Image)(bmpCrop);
+
+        }
+
+        private void ExtractTextFromImage(string filePath)
+        {
+            List<System.Drawing.Image> cropimages = new List<System.Drawing.Image>();
+            System.Drawing.Image img = System.Drawing.Image.FromFile(filePath, true);
+
             int totalColumns = 0;
             int.TryParse(txtColumns.Text, out totalColumns);
+            int totalRows = 0;
+            int.TryParse(txtRows.Text, out totalRows);
+            cropimages = MultiCrop(filePath, img, totalRows, totalColumns);
 
+            string directorypath = Server.MapPath("~/uploads/") + Path.GetFileNameWithoutExtension(filePath);
+            if (!Directory.Exists(directorypath)) ;
+            {
+                Directory.CreateDirectory(directorypath);
+            }
+
+            DataTable dt = new DataTable();
             for (int i = 1; i <= totalColumns; i++)
-			{
+            {
                 dt.Columns.Add("Column" + i);
-			}
+            }
             List<string> lstdata = new List<string>();
-            lstdata = modiImage.Layout.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
+            for (int i = 0; i < cropimages.Count; i++)
+            {
+                {
+                    Document modiDocument = new Document();
+
+                    string temp_crop_file = directorypath + "\\" + i + ".bmp";
+                    {
+                        cropimages[i].Save(temp_crop_file);
+                        
+                    }
+                    try
+                    {
+                      lstdata.Add(  ExtractTextFromSubCropImage(temp_crop_file));
+                    }catch
+                    {
+                        lstdata.Add("");
+                    }
+                }
+            }
+
 
             for (int i = 0; i < lstdata.Count; i++)
             {
@@ -84,7 +143,7 @@ namespace OCRExtractTable
                     dr[j] = lstdata[i];
                     i++;
 
-                    if(i>=lstdata.Count)
+                    if (i >= lstdata.Count)
                     {
                         break;
                     }
@@ -94,12 +153,18 @@ namespace OCRExtractTable
             }
 
             GenerateReport(dt);
+        }
+
+        private string ExtractTextFromSubCropImage(string filePath)
+        {
+            Document modiDocument = new Document();
+            modiDocument.Create(filePath);
+            modiDocument.OCR(MiLANGUAGES.miLANG_ENGLISH);
+            MODI.Image modiImage = (modiDocument.Images[0] as MODI.Image);
             string extractedText = modiImage.Layout.Text;
             modiDocument.Close();
             return extractedText;
         }
-
-
 
         #region--Generate Excel--
         protected void GenerateReport(DataTable dt)
@@ -129,7 +194,7 @@ namespace OCRExtractTable
                 Response.Write("\n");
             }
 
-          
+
             Response.End();
         }
         #endregion
