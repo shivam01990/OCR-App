@@ -119,10 +119,9 @@
             <div id="ocr-sec" style="display: none;" class="col-sm-12">
                 <div class="row">
                     <h2>
-                        <label>Upload File Preview</label></h2>
+                        <label>Upload File Preview & Crop</label></h2>
                     <div class="form-horizontal">
                         <div class="form-group">
-
                             <asp:Image ID="imgUpload" runat="server" />
                         </div>
                         <div class="form-group">
@@ -143,7 +142,6 @@
                     </div>
                 </div>
             </div>
-            <asp:Label ID="lblText" runat="server" Text="Label"></asp:Label>
         </div>
         <!-- /.container -->
         <asp:HiddenField ID="hdnUploadedImage" runat="server" />

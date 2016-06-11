@@ -122,7 +122,9 @@ namespace OCRExtractTable
                     string temp_crop_file = directorypath + "\\" + i + ".bmp";
                     {
                         cropimages[i].Save(temp_crop_file);
-
+                        {
+                            GC.Collect();
+                        }
                     }
                     try
                     {
